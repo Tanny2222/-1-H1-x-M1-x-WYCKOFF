@@ -257,22 +257,29 @@
     font-size: 12px;
     color: var(--muted);
   }
-  .gallery-card-body {
-    padding: 10px 14px;
+  .gallery-card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+    padding: 10px 14px 0 14px;
+  }
+  .gallery-card-body {
+    padding: 10px 14px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   .gallery-card-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
   .gallery-card-rr { font-family: var(--font-mono); font-weight: 600; font-size: 13px; }
-  .gallery-card-duration { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .gallery-card-duration { font-family: var(--font-mono); font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
   .gallery-card-link {
     font-size: 11px;
     font-weight: 600;
     color: var(--gold);
     text-decoration: none;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .gallery-card-link:hover { text-decoration: underline; }
   .gallery-empty {
@@ -2372,17 +2379,17 @@ function renderGalleryGroup(containerId, statusVal) {
 
   container.innerHTML = items.map(({ t, src }) => `
     <div class="gallery-card">
+      <div class="gallery-card-top">
+        <span class="trade-no"># ${t.tradeNo}</span>
+        <a class="gallery-card-link" href="javascript:void(0)" onclick="editTrade('${t.id}')">→ ไปที่เทรด #${t.tradeNo}</a>
+      </div>
       <div class="gallery-card-img-wrap" onclick="openLightbox('${t.id}','after',${toImgArray(t.after).indexOf(src)})">
         <img src="${src}" alt="After #${t.tradeNo}" loading="lazy" onerror="this.closest('.gallery-card').classList.add('img-broken')" />
       </div>
       <div class="gallery-card-body">
-        <div class="gallery-card-meta">
-          <span class="trade-no"># ${t.tradeNo}</span>
-          ${t.rr !== undefined && t.rr !== '' ? `<span class="gallery-card-rr" style="color:${parseFloat(t.rr) >= 0 ? 'var(--green)' : 'var(--red)'}">${fmtRR(t.rr)}</span>` : ''}
-          ${t.duration !== undefined && t.duration !== '' ? `<span class="gallery-card-duration">⏱ ${fmtDuration(t.duration)}</span>` : ''}
-        </div>
-        ${Array.isArray(t.tags) && t.tags.length ? `<div class="tag-cell-pills" style="margin-bottom:6px">${t.tags.map(tag => `<span class="tag-cell-pill">${tag}</span>`).join('')}</div>` : ''}
-        <a class="gallery-card-link" href="javascript:void(0)" onclick="editTrade('${t.id}')">→ ไปที่เทรด #${t.tradeNo}</a>
+        ${t.rr !== undefined && t.rr !== '' ? `<span class="gallery-card-rr" style="color:${parseFloat(t.rr) >= 0 ? 'var(--green)' : 'var(--red)'}">${fmtRR(t.rr)}</span>` : ''}
+        ${Array.isArray(t.tags) && t.tags.length ? `<div class="tag-cell-pills">${t.tags.map(tag => `<span class="tag-cell-pill">${tag}</span>`).join('')}</div>` : ''}
+        ${t.duration !== undefined && t.duration !== '' ? `<span class="gallery-card-duration">⏱ ${fmtDuration(t.duration)}</span>` : ''}
       </div>
     </div>
   `).join('');
