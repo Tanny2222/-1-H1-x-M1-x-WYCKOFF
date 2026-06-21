@@ -2348,7 +2348,7 @@ function renderCards() {
       </td>
       <td>${t.status ? `<span class="status-badge status-${t.status}">${t.status}</span>` : '<span style="color:var(--muted)">—</span>'}</td>
       <td style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">${fmtDate(t.tradeDate) !== '—' ? fmtDate(t.tradeDate) : (t.date || '—')}</td>
-      <td style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">${t.entryTime || '—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--muted);white-space:nowrap">${(t.entryTime ? (t.entryTime.includes(' - ') ? t.entryTime : (() => { const h = parseInt(t.entryTime); return isNaN(h) ? t.entryTime : `${String(h).padStart(2,'0')}:00 - ${String((h+1)%24).padStart(2,'0')}:00`; })()) : '—')}</td>
       <td>${t.session ? `<span class="session-badge sess-${t.session}">${{asia:'Asia',london:'London',ny:'New York',oos:'Out of Session'}[t.session]||t.session}</span>` : '<span style="color:var(--muted)">—</span>'}</td>
       <td>
         ${Array.isArray(t.tags) && t.tags.length
@@ -2890,8 +2890,9 @@ function renderStats() {
 
   // Consecutive streaks
   const sorted = t.slice().sort((a,b) => {
-    const da = a.tradeDate||a.date||'', db = b.tradeDate||b.date||'';
-    return da < db ? -1 : da > db ? 1 : (parseInt(a.tradeNo)||0) - (parseInt(b.tradeNo)||0);
+    const da = a.tradeDate||'', db = b.tradeDate||'';
+    if (da !== db) return da < db ? -1 : 1;
+    return (parseInt(a.tradeNo,10)||0) - (parseInt(b.tradeNo,10)||0);
   });
   let conW=0,conL=0,cW=0,cL=0;
   sorted.forEach(x => {
@@ -3442,6 +3443,7 @@ function escHtml(s) {
         </button>
       </div>
     </div>
+
   </div>
 </div>
 

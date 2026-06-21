@@ -63,7 +63,7 @@ function rowToObj(headers, row) {
       if (val instanceof Date) {
         val = Utilities.formatDate(val, TIMEZONE, 'HH:mm');
       } else if (val) {
-        val = String(val).slice(0, 5);
+        val = String(val); // เก็บค่าเต็ม เช่น "07:00 - 08:00"
       }
     }
     obj[h] = val;
