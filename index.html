@@ -1499,6 +1499,7 @@
   .add-script-form input:focus { border-color: var(--green); }
   .add-script-form input::placeholder { color: var(--muted); }
 
+
 </style>
 </head>
 <body>
@@ -1637,7 +1638,7 @@
       <th class="sortable-th" onclick="sortBy('tradeDate')">Date <span class="sort-arrow" id="sortArrow-tradeDate"></span></th>
       <th class="sortable-th" onclick="sortBy('entryTime')">Entry Time <span class="sort-arrow" id="sortArrow-entryTime"></span></th>
       <th class="sortable-th" onclick="sortBy('session')">Session <span class="sort-arrow" id="sortArrow-session"></span></th>
-      <th>Tags</th>
+      <th>SET UP</th>
       <th>Before</th>
       <th>After</th>
       <th class="sortable-th" onclick="sortBy('rr')">RR <span class="sort-arrow" id="sortArrow-rr"></span></th>
@@ -1727,7 +1728,7 @@
         </div>
       </div>
       <div class="field">
-        <label>Tags</label>
+        <label>SET UP</label>
         <div style="position:relative">
           <div class="tag-input-wrap" id="tagInputWrap" onclick="document.getElementById('tagTextInput').focus()">
             <div id="tagPillsContainer"></div>
@@ -2471,7 +2472,7 @@ function renderTagSuggestions(query) {
   const filtered = all.filter(tag => !q || tag.toLowerCase().includes(q));
   if (!filtered.length) { box.classList.remove('open'); return; }
   box.innerHTML = `
-    <div class="tag-suggestions-label">Tags ที่มีอยู่</div>
+    <div class="tag-suggestions-label">SET UP ที่มีอยู่</div>
     <div class="tag-suggestions-list">
       ${filtered.map(tag => {
         const added = curTags.includes(tag);
@@ -3141,7 +3142,7 @@ function renderStats() {
     const maxAbsRR = Math.max(...tagRows.map(r=>Math.abs(r.trr)), 0.01);
     return `<table class="tag-stat-table">
       <thead><tr>
-        <th>Tag</th><th>Trades</th><th>W</th><th>L</th><th>WR%</th><th>Total RR</th><th>Avg RR</th>
+        <th>SET UP</th><th>Trades</th><th>W</th><th>L</th><th>WR%</th><th>Total RR</th><th>Avg RR</th>
       </tr></thead>
       <tbody>${tagRows.map(r => {
         const barW = Math.abs(r.trr)/maxAbsRR*100;
@@ -3294,9 +3295,9 @@ function renderStats() {
 
   <!-- Tags -->
   ${tagRows.length ? `<div>
-    <div class="stat-section-title">Performance by Tag</div>
+    <div class="stat-section-title">Performance by SET UP</div>
     <div class="chart-card">
-      <div class="chart-card-title">Tag Breakdown <span class="badge">${tagRows.length} tags</span></div>
+      <div class="chart-card-title">SET UP Breakdown <span class="badge">${tagRows.length} set ups</span></div>
       ${tagTable()}
     </div>
   </div>` : ''}
@@ -3414,6 +3415,8 @@ function updateSourceChip() {
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
+
 
 </script>
 
