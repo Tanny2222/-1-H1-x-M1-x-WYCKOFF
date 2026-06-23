@@ -4004,7 +4004,6 @@ function runMonteCarlo() {
       label: '🚀 Best Case — P95',
       items: [
         { label: 'Final Equity Return', val: toSign(pct(0.95, finalEquities)), color: '#3BBF7E', sub: 'P95 simulation' },
-        { label: 'Winrate (จาก Backtest)', val: rrWinrate.toFixed(1) + '%', color: rrWinrate >= 50 ? '#3BBF7E' : '#F6AD55', sub: rrs.length + ' trades' },
         { label: 'Max DD พบในกรณีนี้', val: pct(0.05, maxDDs).toFixed(1) + '%', color: '#3BBF7E', sub: 'P5 max drawdown' },
         { label: 'Max Con. Win', val: pct(0.95, allMaxConWins).toFixed(0) + ' ไม้', color: '#3BBF7E', sub: 'winning streak สูงสุด' },
         { label: 'Max Con. Loss', val: pct(0.05, allMaxConLosses).toFixed(0) + ' ไม้', color: '#3BBF7E', sub: 'losing streak ต่ำสุด' },
@@ -4016,7 +4015,6 @@ function runMonteCarlo() {
       label: '⚖️ Median Case — P50',
       items: [
         { label: 'Final Equity Return', val: toSign(pct(0.5, finalEquities)), color: '#C9A84C', sub: 'P50 simulation' },
-        { label: 'Winrate (จาก Backtest)', val: rrWinrate.toFixed(1) + '%', color: rrWinrate >= 50 ? '#3BBF7E' : '#F6AD55', sub: rrs.length + ' trades' },
         { label: 'Max DD พบในกรณีนี้', val: pct(0.5, maxDDs).toFixed(1) + '%', color: '#C9A84C', sub: 'P50 max drawdown' },
         { label: 'Max Con. Win', val: pct(0.5, allMaxConWins).toFixed(0) + ' ไม้', color: '#3BBF7E', sub: 'winning streak กลาง' },
         { label: 'Max Con. Loss', val: pct(0.5, allMaxConLosses).toFixed(0) + ' ไม้', color: 'var(--muted)', sub: 'losing streak กลาง' },
@@ -4028,7 +4026,6 @@ function runMonteCarlo() {
       label: '⚠️ Worst Case — P5',
       items: [
         { label: 'Final Equity Return', val: toSign(pct(0.05, finalEquities)), color: '#E05A5A', sub: 'P5 simulation' },
-        { label: 'Winrate (จาก Backtest)', val: rrWinrate.toFixed(1) + '%', color: rrWinrate >= 50 ? '#3BBF7E' : '#F6AD55', sub: rrs.length + ' trades' },
         { label: 'Max DD พบในกรณีนี้', val: pct(0.95, maxDDs).toFixed(1) + '%', color: '#E05A5A', sub: 'P95 max drawdown' },
         { label: 'Max Con. Win', val: pct(0.05, allMaxConWins).toFixed(0) + ' ไม้', color: 'var(--muted)', sub: 'winning streak ต่ำสุด' },
         { label: 'Max Con. Loss', val: pct(0.95, allMaxConLosses).toFixed(0) + ' ไม้', color: '#E05A5A', sub: 'losing streak สูงสุด' },
