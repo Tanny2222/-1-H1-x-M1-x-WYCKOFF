@@ -2741,7 +2741,22 @@ function updateStats() {
 
   // ใช้ลำดับตาม sort ปัจจุบันของตาราง (sortKey/sortDir) เพื่อให้ con win/loss
   // นับ streak ตามลำดับที่ผู้ใช้กำลังดูอยู่จริง
-  const ordered = filtered.slice().sort(compareBySortKey);
+  // sort วันที่ asc เป็นหลัก, entry time asc เป็น tie-breaker เสมอ
+  // เพื่อให้ con win/loss นับตามลำดับเวลาจริงของ trade
+  const ordered = filtered.slice().sort((a, b) => {
+    const da = a.tradeDate || a.date || '';
+    const db = b.tradeDate || b.date || '';
+    if (da < db) return -1;
+    if (da > db) return 1;
+    // same date — tie-break by entry time
+    const parseEntry = t => {
+      const v = t.entryTime;
+      if (!v) return 0;
+      if (v.includes(' - ')) return parseInt(v.split(' - ')[0]) || 0;
+      return parseInt(v) || 0;
+    };
+    return parseEntry(a) - parseEntry(b);
+  });
 
   let conWin = 0, conLoss = 0, curWin = 0, curLoss = 0;
   for (let i = 0; i < ordered.length; i++) {
