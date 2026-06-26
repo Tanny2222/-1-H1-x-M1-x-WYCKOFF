@@ -1935,7 +1935,10 @@
 
 <div id="pageTrades" class="page-view">
 
-
+<div style="padding:1.25rem 2rem 0;flex-shrink:0">
+  <div style="font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px">📋 Trades</div>
+  <div style="font-size:13px;color:var(--muted)">บันทึกและติดตาม Trade ทั้งหมดของคุณ</div>
+</div>
 
 <div class="toolbar">
   <button class="btn btn-primary" onclick="openAddModal()">
@@ -2012,6 +2015,10 @@
 </div>
 
 <div id="pageGallery" class="page-view">
+  <div style="padding:1.5rem 2rem 0">
+    <div style="font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px">🖼️ Gallery</div>
+    <div style="font-size:13px;color:var(--muted)">ภาพ Chart ทั้งหมดแบ่งตาม Status</div>
+  </div>
   <div class="gallery-section">
     <div class="gallery-section-title status-WIN">
       <span class="gallery-title-icon">▲</span>
@@ -3980,6 +3987,12 @@ function renderStats() {
 
   // ── Render all ──
   el.innerHTML = `
+
+  <!-- Page Title -->
+  <div style="padding:1.5rem 2rem 0;margin-bottom:0.5rem">
+    <div style="font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px">📊 Statistics</div>
+    <div style="font-size:13px;color:var(--muted)">สรุปผลการเทรดและวิเคราะห์ประสิทธิภาพของระบบ</div>
+  </div>
 
   <!-- KPI Row -->
   <div>
