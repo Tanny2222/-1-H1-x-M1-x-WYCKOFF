@@ -1620,6 +1620,107 @@
   .kpi-sub { font-size: 11px; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
   .stat-section-title { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .stat-section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* Account Overview */
+  .stat-account-section { padding: 1rem 0 0; }
+  .acct-setting-grid { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; }
+  .acct-input-card {
+    display: flex; flex-direction: column; gap: 8px;
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(245,158,11,0.06) 100%);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: var(--radius); padding: 16px 20px;
+    min-width: 160px; flex: 1;
+    position: relative; overflow: hidden;
+  }
+  .acct-input-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 60%, rgba(245,158,11,0.06));
+    pointer-events: none;
+  }
+  .acct-input-card.acct-risk {
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(231,76,60,0.06) 100%);
+    border-color: rgba(231,76,60,0.25);
+  }
+  .acct-input-card.acct-risk::before {
+    background: linear-gradient(135deg, transparent 60%, rgba(231,76,60,0.06));
+  }
+  .acct-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; color: #f59e0b;
+  }
+  .acct-label svg { width: 12px; height: 12px; stroke: #f59e0b; fill: none; stroke-width: 2; flex-shrink: 0; }
+  .acct-risk .acct-label { color: var(--red); }
+  .acct-risk .acct-label svg { stroke: var(--red); }
+  .acct-risk .acct-input-suffix { color: var(--red) !important; opacity: 0.7 !important; }
+  .acct-input-underline {
+    position: relative; flex: 1; display: flex; align-items: center;
+    border-bottom: 1.5px solid rgba(245,158,11,0.45);
+    padding-bottom: 2px;
+  }
+  .acct-risk .acct-input-underline { border-bottom-color: rgba(231,76,60,0.45); }
+  .acct-input-field {
+    flex: 1; width: 100%; background: none; border: none; outline: none;
+    color: var(--text); font-size: 28px; font-family: var(--font-mono);
+    font-weight: 700; padding: 0; min-height: 34px;
+    -moz-appearance: textfield;
+  }
+  .acct-input-field::-webkit-outer-spin-button,
+  .acct-input-field::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .acct-input-field::placeholder { color: var(--border); font-size: 20px; font-weight: 400; }
+  .acct-input-suffix {
+    font-size: 14px; font-family: var(--font-mono); font-weight: 600;
+    color: #5B8DEF; opacity: 0.6; pointer-events: none; flex-shrink: 0; margin-left: 4px;
+  }
+  .acct-result-card {
+    display: flex; flex-direction: column; gap: 8px;
+    background: linear-gradient(135deg, rgba(224,90,90,0.08) 0%, rgba(224,90,90,0.03) 100%);
+    border: 1px solid rgba(224,90,90,0.35);
+    border-radius: var(--radius); padding: 16px 20px;
+    min-width: 180px; flex: 1;
+    box-shadow: 0 0 24px rgba(224,90,90,0.08);
+    position: relative; overflow: hidden;
+  }
+  .acct-result-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 50%, rgba(224,90,90,0.05));
+    pointer-events: none;
+  }
+  .acct-result-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--red);
+  }
+  .acct-result-label svg { width: 12px; height: 12px; stroke: var(--red); fill: none; stroke-width: 2; flex-shrink: 0; }
+  .acct-result-val {
+    font-family: var(--font-mono); font-size: 32px; font-weight: 700;
+    color: var(--red); line-height: 1; flex: 1;
+    display: flex; align-items: center;
+    text-shadow: 0 0 20px rgba(224,90,90,0.3);
+  }
+  .acct-result-sub { font-size: 11px; color: var(--muted); }
+  .acct-stat-card {
+    display: flex; flex-direction: column; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 20px;
+    min-width: 130px; flex: 1; position: relative; overflow: hidden;
+  }
+  .acct-stat-card::before {
+    content: ''; position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .acct-stat-card.equity { border-color: rgba(91,141,239,0.3); background: linear-gradient(135deg, var(--surface), rgba(91,141,239,0.06)); }
+  .acct-stat-card.equity::before { background: linear-gradient(135deg, transparent 60%, rgba(91,141,239,0.06)); }
+  .acct-stat-card.pnl-pos { border-color: rgba(59,191,126,0.3); background: linear-gradient(135deg, var(--surface), rgba(59,191,126,0.06)); }
+  .acct-stat-card.pnl-pos::before { background: linear-gradient(135deg, transparent 60%, rgba(59,191,126,0.06)); }
+  .acct-stat-card.pnl-neg { border-color: rgba(231,76,60,0.3); background: linear-gradient(135deg, var(--surface), rgba(231,76,60,0.06)); }
+  .acct-stat-card.pnl-neg::before { background: linear-gradient(135deg, transparent 60%, rgba(231,76,60,0.06)); }
+  .acct-stat-card.growth { border-color: rgba(245,158,11,0.3); background: linear-gradient(135deg, var(--surface), rgba(245,158,11,0.06)); }
+  .acct-stat-card.growth::before { background: linear-gradient(135deg, transparent 60%, rgba(245,158,11,0.06)); }
+  .acct-stat-label { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+  .acct-stat-label svg { width: 12px; height: 12px; fill: none; stroke-width: 2; flex-shrink: 0; }
+  .acct-stat-val { font-family: var(--font-mono); font-size: 26px; font-weight: 700; line-height: 1; }
+  .acct-stat-sub { font-size: 11px; color: var(--muted); }
   .charts-row { display: grid; gap: 12px; }
   .charts-row.col2 { grid-template-columns: 1fr 1fr; }
   .charts-row.col3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -2039,7 +2140,8 @@
 
 <!-- ═══ Statistics Page ═══ -->
 <div id="pageStats" class="page-view active">
-  <div style="padding:1.25rem 2rem 0;flex-shrink:0">
+  <!-- Page Title (static, same style as other pages) -->
+  <div style="padding:1.5rem 2rem 0">
     <div style="font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px">📊 Statistics</div>
     <div style="font-size:13px;color:var(--muted)">สรุปผลการเทรดและวิเคราะห์ประสิทธิภาพของระบบ</div>
   </div>
@@ -3594,6 +3696,70 @@ function populateEntryTimeOptions() {
 // ══════════════════════════════════════════════
 // ── Statistics Page ──
 // ══════════════════════════════════════════════
+// ── Account Setting ──
+let acctBalance = parseFloat(localStorage.getItem('btj_acct_balance')) || 0;
+let acctRiskPct = parseFloat(localStorage.getItem('btj_acct_risk_pct')) || 0;
+
+function saveAcctSetting() {
+  const bal = parseFloat(document.getElementById('acctBalance')?.value) || 0;
+  const rp  = parseFloat(document.getElementById('acctRiskPct')?.value) || 0;
+  acctBalance = bal; acctRiskPct = rp;
+  localStorage.setItem('btj_acct_balance', bal);
+  localStorage.setItem('btj_acct_risk_pct', rp);
+
+  // Update Risk per Trade card
+  const riskDollar = bal && rp ? (bal * rp / 100) : null;
+  const valEl = document.getElementById('acctRiskDollar');
+  const subEl = document.getElementById('acctRiskSub');
+  if (valEl) valEl.textContent = riskDollar !== null ? '$' + riskDollar.toFixed(2) : '—';
+  if (subEl) subEl.textContent = riskDollar !== null ? rp + '% of $' + bal.toLocaleString() : 'กรอก Balance และ Risk% เพื่อคำนวณ';
+
+  // Recalculate Equity / PNL / Growth row live
+  const epgRow = document.getElementById('acctEPGRow');
+  if (!epgRow) return;
+
+  const t = trades;
+  const totalRR = t.reduce((s, x) => {
+    const r = parseFloat(x.rr); return s + (isNaN(r) ? 0 : r);
+  }, 0);
+  const fmt = v => (v >= 0 ? '+' : '') + v.toFixed(2) + 'R';
+
+  if (!bal || !rp) {
+    epgRow.innerHTML = `
+      <div class="acct-stat-card equity"><div class="acct-stat-label" style="color:#5B8DEF"><svg viewBox="0 0 16 16" stroke="#5B8DEF"><polyline points="2,12 6,7 9,10 14,4"/></svg>Equity</div><div class="acct-stat-val" style="color:var(--muted)">—</div><div class="acct-stat-sub">ต้องการ Balance + Risk%</div></div>
+      <div class="acct-stat-card"><div class="acct-stat-label" style="color:var(--muted)"><svg viewBox="0 0 16 16" stroke="currentColor"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>PNL ($)</div><div class="acct-stat-val" style="color:var(--muted)">—</div><div class="acct-stat-sub">ต้องการ Balance + Risk%</div></div>
+      <div class="acct-stat-card growth"><div class="acct-stat-label" style="color:#f59e0b"><svg viewBox="0 0 16 16" stroke="#f59e0b"><polyline points="2,13 7,7 10,10 14,5"/><polyline points="11,5 14,5 14,8"/></svg>Growth</div><div class="acct-stat-val" style="color:var(--muted)">—</div><div class="acct-stat-sub">ต้องการ Balance + Risk%</div></div>`;
+    return;
+  }
+
+  const rd = bal * rp / 100;
+  const pnl = rd * totalRR;
+  const equity = bal + pnl;
+  const growth = (pnl / bal) * 100;
+  const pnlPos = pnl >= 0;
+  const pnlClass = pnlPos ? 'pnl-pos' : 'pnl-neg';
+  const pnlCol = pnlPos ? 'var(--green)' : 'var(--red)';
+  const growthSign = growth >= 0 ? '+' : '';
+  const totalRRfmt = (totalRR >= 0 ? '+' : '') + totalRR.toFixed(2) + 'R';
+
+  epgRow.innerHTML = `
+    <div class="acct-stat-card equity">
+      <div class="acct-stat-label" style="color:#5B8DEF"><svg viewBox="0 0 16 16" stroke="#5B8DEF"><polyline points="2,12 6,7 9,10 14,4"/></svg>Equity</div>
+      <div class="acct-stat-val" style="color:#5B8DEF">$${equity.toFixed(1)}</div>
+      <div class="acct-stat-sub">Balance + PNL</div>
+    </div>
+    <div class="acct-stat-card ${pnlClass}">
+      <div class="acct-stat-label" style="color:${pnlCol}"><svg viewBox="0 0 16 16" stroke="${pnlCol}">${pnlPos ? '<polyline points="8,12 8,4"/><polyline points="4,8 8,4 12,8"/>' : '<polyline points="8,4 8,12"/><polyline points="4,8 8,12 12,8"/>'}</svg>PNL ($)</div>
+      <div class="acct-stat-val" style="color:${pnlCol}">${pnlPos?'+':''}$${pnl.toFixed(1)}</div>
+      <div class="acct-stat-sub">${totalRRfmt} × $${rd.toFixed(2)}</div>
+    </div>
+    <div class="acct-stat-card growth">
+      <div class="acct-stat-label" style="color:#f59e0b"><svg viewBox="0 0 16 16" stroke="#f59e0b"><polyline points="2,13 7,7 10,10 14,5"/><polyline points="11,5 14,5 14,8"/></svg>Growth</div>
+      <div class="acct-stat-val" style="color:#f59e0b">${growthSign}${growth.toFixed(1)}%</div>
+      <div class="acct-stat-sub">PNL ÷ Balance</div>
+    </div>`;
+}
+
 function renderStats() {
   const el = document.getElementById('statsPageContent');
   if (!el) return;
@@ -3931,11 +4097,10 @@ function renderStats() {
     if (!distData.length) return '<div style="color:var(--muted);font-size:12px">ไม่มีข้อมูล RR</div>';
     const maxC = Math.max(...distData.map(d=>d.count), 1);
 
-    // find mode bin (positive side only)
     const posBins = distData.filter(d => d.min >= 0 && d.count > 0);
     const modeBin = posBins.length ? posBins.reduce((a,b) => b.count > a.count ? b : a) : null;
 
-    const W=420, H=170, pad={t:20,r:4,b:36,l:4};
+    const W=420, H=170, pad={t:22,r:4,b:36,l:4};
     const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
     const bw = Math.max(Math.floor(cw/distData.length)-6, 4);
     let bars = '';
@@ -3948,21 +4113,20 @@ function renderStats() {
       const col = isMode ? 'var(--gold)' : (mid >= 0 ? 'var(--green)' : 'var(--red)');
       bars += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw}" height="${bh.toFixed(1)}" rx="3" fill="${col}" opacity="${isMode?'1':'0.8'}"/>`;
       if (d.count > 0) bars += `<text x="${(x+bw/2).toFixed(1)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="${isMode?'var(--gold)':'var(--muted)'}" font-weight="${isMode?'700':'400'}">${d.count}</text>`;
+      if (isMode) bars += `<text x="${(x+bw/2).toFixed(1)}" y="${(y-14).toFixed(1)}" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="var(--gold)">MODE</text>`;
       const shortLabel = (d.min >= 0 ? '+' : '') + d.min;
       bars += `<text x="${(x+bw/2).toFixed(1)}" y="${(pad.t+ch+14).toFixed(1)}" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="${isMode?'var(--gold)':'var(--muted)'}">${shortLabel}</text>`;
-      if (isMode) bars += `<text x="${(x+bw/2).toFixed(1)}" y="${(y-14).toFixed(1)}" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="var(--gold)">MODE</text>`;
     });
-    const zeroX = distData.findIndex(d => d.min === 0);
+    const zeroIdx = distData.findIndex(d => d.min === 0);
     let zeroLine = '';
-    if (zeroX >= 0) {
-      const zx = pad.l + zeroX*(cw/distData.length);
+    if (zeroIdx >= 0) {
+      const zx = pad.l + zeroIdx*(cw/distData.length);
       zeroLine = `<line x1="${zx.toFixed(1)}" y1="${pad.t}" x2="${zx.toFixed(1)}" y2="${(pad.t+ch).toFixed(1)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>`;
     }
     const modeLabel = modeBin ? `mode +${modeBin.min}~+${modeBin.max}R (${modeBin.count} trades)` : '';
     return `<svg viewBox="0 0 ${W} ${H}" class="chart-svg">
       <line x1="${pad.l}" y1="${pad.t+ch}" x2="${W-pad.r}" y2="${pad.t+ch}" stroke="var(--border)" stroke-width="1"/>
-      ${zeroLine}
-      ${bars}
+      ${zeroLine}${bars}
       <text x="${(W-pad.r).toFixed(1)}" y="${(pad.t+ch+28).toFixed(1)}" text-anchor="end" font-family="'JetBrains Mono',monospace" font-size="8" fill="var(--gold)" opacity="0.8">${modeLabel}</text>
     </svg>`;
   }
@@ -4017,6 +4181,83 @@ function renderStats() {
 
   // ── Render all ──
   el.innerHTML = `
+
+  <!-- Account Overview -->
+  <div class="stat-section stat-account-section">
+    <div class="stat-section-title">Account Overview</div>
+    <div class="acct-setting-grid">
+      <div class="acct-input-card">
+        <div class="acct-label">
+          <svg viewBox="0 0 16 16"><rect x="2" y="4" width="12" height="9" rx="1.5"/><path d="M5 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/><path d="M2 8h12"/></svg>
+          Balance ($)
+        </div>
+        <div class="acct-input-underline">
+          <input type="number" id="acctBalance" class="acct-input-field" placeholder="10,000"
+            value="${acctBalance||''}" oninput="saveAcctSetting()" />
+        </div>
+      </div>
+      <div class="acct-input-card acct-risk">
+        <div class="acct-label">
+          <svg viewBox="0 0 16 16"><circle cx="5" cy="11" r="1.5"/><circle cx="11" cy="5" r="1.5"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+          Risk %
+        </div>
+        <div class="acct-input-underline">
+          <input type="number" id="acctRiskPct" class="acct-input-field" placeholder="1.0" step="0.1" min="0" max="100"
+            value="${acctRiskPct||''}" oninput="saveAcctSetting()" />
+          <span class="acct-input-suffix">%</span>
+        </div>
+      </div>
+      ${(() => {
+        const riskDollar = acctBalance && acctRiskPct ? (acctBalance * acctRiskPct / 100) : null;
+        return `<div class="acct-result-card">
+          <div class="acct-result-label">
+            <svg viewBox="0 0 16 16"><circle cx="5" cy="11" r="1.5"/><circle cx="11" cy="5" r="1.5"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+            Risk per Trade ($)
+          </div>
+          <div class="acct-result-val" id="acctRiskDollar">
+            ${riskDollar !== null ? '$' + riskDollar.toFixed(2) : '—'}
+          </div>
+          <div class="acct-result-sub" id="acctRiskSub">
+            ${riskDollar !== null ? acctRiskPct + '% of $' + Number(acctBalance).toLocaleString() : 'กรอก Balance และ Risk% เพื่อคำนวณ'}
+          </div>
+        </div>`;
+      })()}
+    </div>
+
+    <!-- Equity / PNL / Growth row -->
+    <div class="acct-setting-grid" id="acctEPGRow" style="margin-top:10px">
+      ${(() => {
+        if (!acctBalance || !acctRiskPct) return `
+          <div class="acct-stat-card equity"><div class="acct-stat-label" style="color:#5B8DEF"><svg viewBox="0 0 16 16" stroke="#5B8DEF"><polyline points="2,12 6,7 9,10 14,4"/></svg>Equity</div><div class="acct-stat-val" style="color:var(--muted)">—</div><div class="acct-stat-sub">ต้องการ Balance + Risk%</div></div>
+          <div class="acct-stat-card"><div class="acct-stat-label" style="color:var(--muted)"><svg viewBox="0 0 16 16" stroke="currentColor"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>PNL ($)</div><div class="acct-stat-val" style="color:var(--muted)">—</div><div class="acct-stat-sub">ต้องการ Balance + Risk%</div></div>
+          <div class="acct-stat-card growth"><div class="acct-stat-label" style="color:#f59e0b"><svg viewBox="0 0 16 16" stroke="#f59e0b"><polyline points="2,13 7,7 10,10 14,5"/><polyline points="11,5 14,5 14,8"/></svg>Growth</div><div class="acct-stat-val" style="color:var(--muted)">—</div><div class="acct-stat-sub">ต้องการ Balance + Risk%</div></div>`;
+        const riskDollar = acctBalance * acctRiskPct / 100;
+        const pnl = riskDollar * totalRR;
+        const equity = acctBalance + pnl;
+        const growth = (pnl / acctBalance) * 100;
+        const pnlPos = pnl >= 0;
+        const pnlClass = pnlPos ? 'pnl-pos' : 'pnl-neg';
+        const pnlCol = pnlPos ? 'var(--green)' : 'var(--red)';
+        const growthSign = growth >= 0 ? '+' : '';
+        return `
+          <div class="acct-stat-card equity">
+            <div class="acct-stat-label" style="color:#5B8DEF"><svg viewBox="0 0 16 16" stroke="#5B8DEF"><polyline points="2,12 6,7 9,10 14,4"/></svg>Equity</div>
+            <div class="acct-stat-val" style="color:#5B8DEF">$${equity.toFixed(1)}</div>
+            <div class="acct-stat-sub">Balance + PNL</div>
+          </div>
+          <div class="acct-stat-card ${pnlClass}">
+            <div class="acct-stat-label" style="color:${pnlCol}"><svg viewBox="0 0 16 16" stroke="${pnlCol}">${pnlPos ? '<polyline points="8,12 8,4"/><polyline points="4,8 8,4 12,8"/>' : '<polyline points="8,4 8,12"/><polyline points="4,8 8,12 12,8"/>'}</svg>PNL ($)</div>
+            <div class="acct-stat-val" style="color:${pnlCol}">${pnlPos?'+':''}$${pnl.toFixed(1)}</div>
+            <div class="acct-stat-sub">${fmt(totalRR)}R × $${riskDollar.toFixed(2)}</div>
+          </div>
+          <div class="acct-stat-card growth">
+            <div class="acct-stat-label" style="color:#f59e0b"><svg viewBox="0 0 16 16" stroke="#f59e0b"><polyline points="2,13 7,7 10,10 14,5"/><polyline points="11,5 14,5 14,8"/></svg>Growth</div>
+            <div class="acct-stat-val" style="color:#f59e0b">${growthSign}${growth.toFixed(1)}%</div>
+            <div class="acct-stat-sub">PNL ÷ Balance</div>
+          </div>`;
+      })()}
+    </div>
+  </div>
 
   <!-- KPI Row -->
   <div>
