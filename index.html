@@ -3937,6 +3937,28 @@ function renderStats() {
     pnlPoints.push({ n: i+1, v: pnlCum });
   });
 
+  // ── Trade Frequency ──
+  const datesWithTrades = t
+    .map(x => x.tradeDate)
+    .filter(d => d && /^\d{4}-\d{2}-\d{2}$/.test(d));
+  const uniqueTradeDays = [...new Set(datesWithTrades)].sort();
+  let avgDaysBetweenTrades = null;
+  let tradesPerMonth = null;
+  let avgTradesPerActiveDay = null;
+  if (uniqueTradeDays.length >= 2) {
+    const firstDate = new Date(uniqueTradeDays[0]);
+    const lastDate  = new Date(uniqueTradeDays[uniqueTradeDays.length - 1]);
+    const totalCalDays = Math.max(1, (lastDate - firstDate) / 86400000);
+    avgDaysBetweenTrades = totalCalDays / (uniqueTradeDays.length - 1);
+    const spanMonths = totalCalDays / 30.44;
+    tradesPerMonth = spanMonths > 0 ? t.length / spanMonths : t.length;
+    avgTradesPerActiveDay = t.length / uniqueTradeDays.length;
+  } else if (uniqueTradeDays.length === 1) {
+    avgDaysBetweenTrades = 0;
+    tradesPerMonth = t.length;
+    avgTradesPerActiveDay = t.length;
+  }
+
   // ── By session ──
   const sessions = ['asia','london','ny','oos'];
   const sessNames = { asia:'Asia', london:'London', ny:'New York', oos:'Out of Session' };
@@ -4368,6 +4390,38 @@ function renderStats() {
         <div class="kpi-label">Expect. Value</div>
         <div class="kpi-sub">per trade</div>
       </div>
+    </div>
+  </div>
+
+  <!-- Trade Frequency Row -->
+  <div>
+    <div class="stat-section-title">Trade Frequency <span style="color:var(--muted);font-weight:400;font-size:11px;margin-left:8px">จากวันที่ในตาราง Trades</span></div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:var(--gold)">${uniqueTradeDays.length}</div>
+        <div class="kpi-label">วันที่เทรด</div>
+        <div class="kpi-sub">จาก ${t.length} trades ทั้งหมด</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:var(--gold)">${avgDaysBetweenTrades != null ? (avgDaysBetweenTrades < 1 ? '<1' : Math.floor(avgDaysBetweenTrades)) : '—'}</div>
+        <div class="kpi-label">วัน / ออเดอร์ (avg)</div>
+        <div class="kpi-sub">ระยะห่างเฉลี่ยระหว่างวันเทรด</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:var(--gold)">${tradesPerMonth != null ? Math.floor(tradesPerMonth) : '—'}</div>
+        <div class="kpi-label">ไม้ / เดือน (avg)</div>
+        <div class="kpi-sub">โอกาสเทรดต่อเดือน</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:var(--gold)">${avgTradesPerActiveDay != null ? Math.floor(avgTradesPerActiveDay) : '—'}</div>
+        <div class="kpi-label">ไม้ / วันที่เทรด</div>
+        <div class="kpi-sub">เฉลี่ยต่อวันที่มีออเดอร์</div>
+      </div>
+      ${uniqueTradeDays.length >= 2 ? `<div class="kpi-card">
+        <div class="kpi-val" style="color:var(--muted);font-size:14px">${uniqueTradeDays[0]}</div>
+        <div class="kpi-label">Trade แรก</div>
+        <div class="kpi-sub">→ ${uniqueTradeDays[uniqueTradeDays.length-1]}</div>
+      </div>` : ''}
     </div>
   </div>
 
