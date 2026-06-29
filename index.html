@@ -2259,9 +2259,29 @@
 
     <div>
       <div class="stat-section-title">📅 Trading Calendar
-        <div style="display:flex;align-items:center;gap:6px">
+        <div style="display:flex;align-items:center;gap:6px;position:relative">
           <button onclick="calPrev()" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);width:26px;height:26px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .15s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">‹</button>
-          <div id="calMonthLabel" style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--text);min-width:120px;text-align:center"></div>
+
+          <!-- Clickable month/year label -->
+          <button id="calMonthLabel" onclick="calTogglePicker()" style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--text);min-width:130px;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);height:26px;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .15s,border-color .15s" onmouseover="this.style.background='var(--surface2)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.background='var(--surface)';this.style.borderColor='var(--border)'">
+            <span id="calMonthLabelText"></span>
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" style="opacity:.5;flex-shrink:0"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+
+          <!-- Month/Year Picker Dropdown -->
+          <div id="calPicker" style="display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);z-index:400;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 8px 32px rgba(0,0,0,0.35);padding:16px;width:280px">
+
+            <!-- Year selector row -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+              <button onclick="calPickerYearStep(-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);width:26px;height:26px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center">‹</button>
+              <span id="calPickerYear" style="font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text)"></span>
+              <button onclick="calPickerYearStep(1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);width:26px;height:26px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center">›</button>
+            </div>
+
+            <!-- Month grid -->
+            <div id="calPickerMonths" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px"></div>
+          </div>
+
           <button onclick="calNext()" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);width:26px;height:26px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .15s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">›</button>
           <button onclick="calGoToday()" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--muted);padding:0 10px;height:26px;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:.06em;transition:background .15s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">TODAY</button>
         </div>
@@ -5776,14 +5796,77 @@ function runMonteCarlo() {
 ═══════════════════════════════════════════ */
 let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth(); // 0-indexed
+let calPickerYear = calYear; // year shown in picker
 
 function calPrev() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
 function calNext() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
 function calGoToday() { calYear = new Date().getFullYear(); calMonth = new Date().getMonth(); renderCalendar(); }
 
+// ── Picker ──
+function calTogglePicker() {
+  const p = document.getElementById('calPicker');
+  if (!p) return;
+  if (p.style.display === 'none' || !p.style.display) {
+    calPickerYear = calYear;
+    calRenderPicker();
+    p.style.display = 'block';
+  } else {
+    p.style.display = 'none';
+  }
+}
+
+function calClosePicker() {
+  const p = document.getElementById('calPicker');
+  if (p) p.style.display = 'none';
+}
+
+function calPickerYearStep(delta) {
+  calPickerYear += delta;
+  calRenderPicker();
+}
+
+function calRenderPicker() {
+  const yearEl = document.getElementById('calPickerYear');
+  if (yearEl) yearEl.textContent = calPickerYear;
+
+  const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const grid = document.getElementById('calPickerMonths');
+  if (!grid) return;
+
+  grid.innerHTML = MONTH_SHORT.map((m, i) => {
+    const isSelected = (i === calMonth && calPickerYear === calYear);
+    const isToday = (i === new Date().getMonth() && calPickerYear === new Date().getFullYear());
+    return `<button onclick="calPickMonth(${i})"
+      style="padding:7px 4px;border-radius:var(--radius-sm);font-size:12px;font-family:var(--font-mono);font-weight:${isSelected?700:500};
+      cursor:pointer;border:1px solid ${isSelected?'var(--gold)':'var(--border)'};
+      background:${isSelected?'rgba(201,168,76,0.15)':'var(--surface2)'};
+      color:${isSelected?'var(--gold)':isToday?'var(--green)':'var(--text)'};
+      transition:background .12s,border-color .12s"
+      onmouseover="if(!${isSelected})this.style.background='var(--surface)';this.style.borderColor='var(--gold-dim)'"
+      onmouseout="if(!${isSelected})this.style.background='var(--surface2)';this.style.borderColor='${isSelected?'var(--gold)':'var(--border)'}'"
+    >${m}</button>`;
+  }).join('');
+}
+
+function calPickMonth(monthIdx) {
+  calMonth = monthIdx;
+  calYear = calPickerYear;
+  calClosePicker();
+  renderCalendar();
+}
+
+// Close picker when clicking outside
+document.addEventListener('click', function(e) {
+  const picker = document.getElementById('calPicker');
+  const label = document.getElementById('calMonthLabel');
+  if (picker && label && !picker.contains(e.target) && !label.contains(e.target)) {
+    picker.style.display = 'none';
+  }
+});
+
 function renderCalendar() {
   const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const lbl = document.getElementById('calMonthLabel');
+  const lbl = document.getElementById('calMonthLabelText');
   if (lbl) lbl.textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
 
   // Build date→trades map for current month
