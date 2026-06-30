@@ -185,6 +185,44 @@
     padding: 0 18px 0 14px;
   }
 
+  /* ─── Scroll to Top FAB ─── */
+  .fab-scroll-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 997;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s, opacity 0.2s, border-color 0.15s;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .fab-scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .fab-scroll-top:hover {
+    background: var(--surface2);
+    border-color: var(--gold-dim);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  .fab-scroll-top:active { transform: translateY(0) scale(0.94); }
+  .fab-scroll-top svg { width: 19px; height: 19px; stroke: var(--gold); fill: none; stroke-width: 2.3; flex-shrink: 0; }
+  /* When the Add-Trade FAB is also visible (Trades page), stack scroll-top above it */
+  .fab-scroll-top.stacked { bottom: 92px; }
+
   /* ─── Header ─── */
   header {
     border-bottom: 1px solid var(--border);
@@ -3857,7 +3895,57 @@ function switchPage(page) {
   // Show FAB only on Trades page
   const fab = document.getElementById('fabAddTrade');
   if (fab) fab.style.display = page === 'trades' ? 'flex' : 'none';
+
+  // Re-check scroll-to-top button state for the newly active page,
+  // and make sure the Trades table scroll container has a listener attached.
+  attachTradesScrollListener();
+  updateScrollTopFabVisibility();
+  const scrollTopBtn = document.getElementById('fabScrollTop');
+  if (scrollTopBtn) scrollTopBtn.classList.toggle('stacked', page === 'trades');
 }
+
+// ── Scroll to Top FAB ──
+// Works for both normal window-scrolled pages (Statistics, Risk, Monte Carlo, Gallery)
+// and the Trades page, which scrolls inside its own .table-scroll-container instead of the window.
+function getActiveScrollEl() {
+  const tradesPage = document.getElementById('pageTrades');
+  if (tradesPage && tradesPage.classList.contains('active')) {
+    return document.querySelector('#pageTrades .table-scroll-container');
+  }
+  return null; // null = use window scroll
+}
+
+function scrollToTopFab() {
+  const scEl = getActiveScrollEl();
+  if (scEl) {
+    scEl.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function updateScrollTopFabVisibility() {
+  const btn = document.getElementById('fabScrollTop');
+  if (!btn) return;
+  const scEl = getActiveScrollEl();
+  const scrollY = scEl ? scEl.scrollTop : (window.scrollY || document.documentElement.scrollTop);
+  btn.classList.toggle('visible', scrollY > 300);
+}
+
+window.addEventListener('scroll', updateScrollTopFabVisibility, { passive: true });
+
+// Re-attach listener to the trades table scroll container whenever it's (re)rendered,
+// since switching pages may swap which element is actually scrolling.
+function attachTradesScrollListener() {
+  const sc = document.querySelector('#pageTrades .table-scroll-container');
+  if (sc && !sc._scrollTopFabAttached) {
+    sc.addEventListener('scroll', updateScrollTopFabVisibility, { passive: true });
+    sc._scrollTopFabAttached = true;
+  }
+}
+document.addEventListener('DOMContentLoaded', attachTradesScrollListener);
+setTimeout(attachTradesScrollListener, 300);
+setTimeout(updateScrollTopFabVisibility, 300);
 
 function openSidebar() {
   document.getElementById('sidebarNav').classList.add('open');
@@ -6207,6 +6295,11 @@ function calShowDay(dateStr) {
 <button class="fab-add-trade" id="fabAddTrade" onclick="openAddModal()" title="เพิ่ม Trade" style="display:none">
   <svg viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
   <span class="fab-label">เพิ่ม Trade</span>
+</button>
+
+<!-- Floating Scroll to Top Button -->
+<button class="fab-scroll-top" id="fabScrollTop" onclick="scrollToTopFab()" title="ขึ้นบนสุด">
+  <svg viewBox="0 0 16 16"><polyline points="3,9 8,4 13,9"/><line x1="8" y1="4" x2="8" y2="14"/></svg>
 </button>
 
 <!-- Script Source Manager Modal -->
